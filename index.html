@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Investment analysis of seven UK energy infrastructure asset classes using Excel and Power BI." />
+  <title>UK Energy Infrastructure Investment Analysis</title>
+  <style>
+    :root {
+      --bg: #07111f;
+      --panel: #0d1b2a;
+      --text: #eef5fb;
+      --muted: #a9bbcc;
+      --accent: #61d4a8;
+      --accent-2: #73b9ff;
+      --line: rgba(255,255,255,.10);
+      --max: 1120px;
+    }
+
+    * { box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: linear-gradient(180deg, #07111f 0%, #091827 40%, #07111f 100%);
+      color: var(--text);
+      line-height: 1.65;
+    }
+
+    a { color: inherit; }
+
+    .wrap {
+      width: min(var(--max), calc(100% - 40px));
+      margin: 0 auto;
+    }
+
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      backdrop-filter: blur(14px);
+      background: rgba(7,17,31,.82);
+      border-bottom: 1px solid var(--line);
+    }
+
+    .nav-inner {
+      min-height: 68px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+    }
+
+    .brand {
+      font-weight: 800;
+      letter-spacing: -.02em;
+    }
+
+    .nav-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 18px;
+      font-size: .95rem;
+    }
+
+    .nav-links a {
+      text-decoration: none;
+      color: var(--muted);
+    }
+
+    .nav-links a:hover { color: var(--text); }
+
+    header {
+      padding: 100px 0 70px;
+    }
+
+    .eyebrow {
+      color: var(--accent);
+      font-weight: 800;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      font-size: .78rem;
+      margin-bottom: 14px;
+    }
+
+    h1 {
+      margin: 0;
+      max-width: 920px;
+      font-size: clamp(2.5rem, 6vw, 5rem);
+      line-height: 1.02;
+      letter-spacing: -.045em;
+    }
+
+    .hero-copy {
+      max-width: 800px;
+      color: var(--muted);
+      font-size: clamp(1rem, 2vw, 1.25rem);
+      margin: 28px 0 34px;
+    }
+
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .btn {
+      display: inline-block;
+      padding: 12px 18px;
+      border-radius: 10px;
+      text-decoration: none;
+      font-weight: 750;
+      border: 1px solid var(--line);
+      transition: transform .18s ease, border-color .18s ease;
+    }
+
+    .btn:hover {
+      transform: translateY(-2px);
+      border-color: rgba(255,255,255,.35);
+    }
+
+    .btn-primary {
+      background: var(--accent);
+      color: #052015;
+      border-color: transparent;
+    }
+
+    .btn-secondary {
+      background: rgba(255,255,255,.04);
+    }
+
+    section {
+      padding: 70px 0;
+      border-top: 1px solid var(--line);
+    }
+
+    .section-head {
+      max-width: 760px;
+      margin-bottom: 34px;
+    }
+
+    h2 {
+      margin: 0 0 12px;
+      font-size: clamp(1.8rem, 4vw, 2.7rem);
+      letter-spacing: -.03em;
+    }
+
+    h3 { margin-top: 0; }
+
+    .muted { color: var(--muted); }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+      margin-top: 28px;
+    }
+
+    .stat, .card {
+      background: linear-gradient(180deg, rgba(255,255,255,.055), rgba(255,255,255,.025));
+      border: 1px solid var(--line);
+      border-radius: 16px;
+    }
+
+    .stat {
+      padding: 24px;
+    }
+
+    .stat strong {
+      display: block;
+      font-size: 2rem;
+      color: var(--accent);
+      line-height: 1;
+      margin-bottom: 8px;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 18px;
+    }
+
+    .card {
+      padding: 24px;
+    }
+
+    .tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 22px;
+    }
+
+    .tag {
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,.035);
+      color: #dce8f3;
+      border-radius: 999px;
+      padding: 8px 12px;
+      font-size: .92rem;
+    }
+
+    .method {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+    }
+
+    .step {
+      display: inline-grid;
+      place-items: center;
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      background: rgba(97,212,168,.15);
+      color: var(--accent);
+      font-weight: 800;
+      margin-bottom: 18px;
+    }
+
+    .finding {
+      border-left: 3px solid var(--accent-2);
+    }
+
+    .downloads {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 16px;
+    }
+
+    .download-card {
+      display: flex;
+      justify-content: space-between;
+      gap: 20px;
+      align-items: center;
+    }
+
+    .download-card a {
+      white-space: nowrap;
+    }
+
+    footer {
+      padding: 38px 0 60px;
+      color: var(--muted);
+      border-top: 1px solid var(--line);
+    }
+
+    @media (max-width: 850px) {
+      .stats, .method { grid-template-columns: repeat(2, 1fr); }
+      .grid { grid-template-columns: 1fr; }
+      .downloads { grid-template-columns: 1fr; }
+    }
+
+    @media (max-width: 600px) {
+      .wrap { width: min(var(--max), calc(100% - 28px)); }
+      .nav-inner { align-items: flex-start; padding: 14px 0; }
+      .nav-links { display: none; }
+      header { padding: 72px 0 52px; }
+      .stats, .method { grid-template-columns: 1fr; }
+      .download-card { align-items: flex-start; flex-direction: column; }
+    }
+  </style>
+</head>
+<body>
+  <nav>
+    <div class="wrap nav-inner">
+      <div class="brand">UK Energy Investment Analysis</div>
+      <div class="nav-links">
+        <a href="#overview">Overview</a>
+        <a href="#assets">Asset Classes</a>
+        <a href="#methodology">Methodology</a>
+        <a href="#findings">Findings</a>
+        <a href="#files">Project Files</a>
+      </div>
+    </div>
+  </nav>
+
+  <header>
+    <div class="wrap">
+      <div class="eyebrow">Data Analytics Portfolio Project</div>
+      <h1>UK Energy Infrastructure Investment Analysis</h1>
+      <p class="hero-copy">
+        An Excel and Power BI investment analysis of seven UK energy infrastructure asset classes,
+        assessing financial performance, risk, technological attractiveness and decarbonisation potential.
+      </p>
+      <div class="actions">
+        <a class="btn btn-primary" href="#findings">View Key Findings</a>
+        <a class="btn btn-secondary" href="https://github.com/duvwiamamichael/uk-energy-infrastructure-investment-analysis" target="_blank" rel="noopener">View Project Repository</a>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section id="overview">
+      <div class="wrap">
+        <div class="section-head">
+          <div class="eyebrow">Project Overview</div>
+          <h2>Turning infrastructure data into an investment view</h2>
+          <p class="muted">
+            The analysis combines project-level data with financial and strategic measures to compare
+            energy infrastructure opportunities on more than return alone.
+          </p>
+        </div>
+
+        <div class="stats">
+          <div class="stat"><strong>420</strong><span>project-level observations</span></div>
+          <div class="stat"><strong>7</strong><span>energy asset classes</span></div>
+          <div class="stat"><strong>4</strong><span>investment perspectives</span></div>
+          <div class="stat"><strong>2</strong><span>core analytical tools</span></div>
+        </div>
+
+        <div class="tags">
+          <span class="tag">Microsoft Excel</span>
+          <span class="tag">Power BI</span>
+          <span class="tag">ROI</span>
+          <span class="tag">NPV</span>
+          <span class="tag">Scenario Analysis</span>
+          <span class="tag">What-If Analysis</span>
+          <span class="tag">Risk Assessment</span>
+          <span class="tag">Decarbonisation</span>
+        </div>
+      </div>
+    </section>
+
+    <section id="assets">
+      <div class="wrap">
+        <div class="section-head">
+          <div class="eyebrow">Coverage</div>
+          <h2>Seven UK energy infrastructure asset classes</h2>
+        </div>
+
+        <div class="grid">
+          <div class="card"><h3>Solar PV</h3><p class="muted">Assessed across financial return, technology maturity, risk and carbon impact.</p></div>
+          <div class="card"><h3>Offshore Wind</h3><p class="muted">Compared on investment attractiveness and contribution to long-term decarbonisation.</p></div>
+          <div class="card"><h3>Battery Storage</h3><p class="muted">Evaluated as a flexible infrastructure opportunity supporting the energy transition.</p></div>
+          <div class="card"><h3>Heat Pumps</h3><p class="muted">Reviewed for technology attractiveness alongside deployment and workforce constraints.</p></div>
+          <div class="card"><h3>Hydrogen</h3><p class="muted">Assessed for long-term decarbonisation potential and selective investment opportunity.</p></div>
+          <div class="card"><h3>Gas Infrastructure</h3><p class="muted">Considered within the wider financial, risk and transition framework.</p></div>
+          <div class="card"><h3>CCUS</h3><p class="muted">Analysed for financial performance and strategic decarbonisation potential.</p></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="methodology">
+      <div class="wrap">
+        <div class="section-head">
+          <div class="eyebrow">Analytical Approach</div>
+          <h2>Four perspectives, one investment framework</h2>
+        </div>
+
+        <div class="method">
+          <div class="card"><span class="step">1</span><h3>Technology</h3><p class="muted">Evaluate technological attractiveness and maturity.</p></div>
+          <div class="card"><span class="step">2</span><h3>Financial Performance</h3><p class="muted">Use ROI and NPV to compare financial outcomes.</p></div>
+          <div class="card"><span class="step">3</span><h3>Risk</h3><p class="muted">Assess relative investment and deployment risk.</p></div>
+          <div class="card"><span class="step">4</span><h3>Carbon Impact</h3><p class="muted">Compare estimated carbon savings and decarbonisation value.</p></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="findings">
+      <div class="wrap">
+        <div class="section-head">
+          <div class="eyebrow">Key Findings</div>
+          <h2>What the analysis indicates</h2>
+        </div>
+
+        <div class="grid">
+          <div class="card finding"><h3>Strongest overall cases</h3><p>Solar PV, Offshore Wind and Battery Storage demonstrate the strongest overall investment cases under the analysis.</p></div>
+          <div class="card finding"><h3>High potential, practical constraints</h3><p>Heat Pumps show high technological attractiveness, but deployment and workforce constraints remain important.</p></div>
+          <div class="card finding"><h3>Selective long-term opportunity</h3><p>Hydrogen shows significant long-term decarbonisation potential, but supports a more selective investment approach.</p></div>
+          <div class="card finding"><h3>Weakest financial case</h3><p>CCUS currently presents the weakest financial case under the assumptions used in the model.</p></div>
+          <div class="card finding"><h3>Portfolio-level conclusion</h3><p>Investment decisions are stronger when financial return, risk, technology maturity and decarbonisation impact are considered together.</p></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="files">
+      <div class="wrap">
+        <div class="section-head">
+          <div class="eyebrow">Project Files</div>
+          <h2>Explore the underlying work</h2>
+          <p class="muted">
+            Recruiters can understand the project on this page, while technical reviewers can open the supporting Excel, Power BI and report files.
+          </p>
+        </div>
+
+        <div class="downloads">
+          <div class="card download-card">
+            <div><h3>Excel Analysis</h3><p class="muted">Underlying analysis, scoring model and What-If / Scenario Analysis.</p></div>
+            <a class="btn btn-secondary" href="https://github.com/duvwiamamichael/uk-energy-infrastructure-investment-analysis/blob/main/Energy%20Infrastructure%20Investment%20Analysis.xlsx?raw=1">Download</a>
+          </div>
+
+          <div class="card download-card">
+            <div><h3>Power BI Dashboard</h3><p class="muted">PDF dashboard visualisation of the key analytical findings.</p></div>
+            <a class="btn btn-secondary" href="https://github.com/duvwiamamichael/uk-energy-infrastructure-investment-analysis/blob/main/Power%20BI%20Dashboard.pdf">View PDF</a>
+          </div>
+
+          <div class="card download-card">
+            <div><h3>Power BI Project File</h3><p class="muted">The original PBIX file for technical review in Power BI Desktop.</p></div>
+            <a class="btn btn-secondary" href="https://github.com/duvwiamamichael/uk-energy-infrastructure-investment-analysis/blob/main/Energy%20Infrastructure%20Investment%20Analysis.pbix?raw=1">Download</a>
+          </div>
+
+          <div class="card download-card">
+            <div><h3>Full Analysis Report</h3><p class="muted">Eight-page project analysis and recommendations.</p></div>
+            <a class="btn btn-secondary" href="https://github.com/duvwiamamichael/uk-energy-infrastructure-investment-analysis/blob/main/Energy%20Infrastructure%20Investment%20Analysis.pdf">View PDF</a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="wrap">
+      <strong>UK Energy Infrastructure Investment Analysis</strong><br />
+      <span>Built as a data analytics portfolio project using Microsoft Excel and Power BI.</span>
+    </div>
+  </footer>
+</body>
+</html>
