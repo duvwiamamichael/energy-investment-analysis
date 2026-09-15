@@ -247,6 +247,37 @@
       border-top: 1px solid var(--line);
     }
 
+
+    .gallery {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 28px;
+    }
+
+    .visual-card {
+      overflow: hidden;
+      padding: 0;
+    }
+
+    .visual-card img {
+      display: block;
+      width: 100%;
+      height: auto;
+      background: #0b1625;
+    }
+
+    .visual-copy {
+      padding: 24px;
+    }
+
+    .visual-copy h3 {
+      margin-bottom: 8px;
+    }
+
+    .visual-copy p {
+      margin: 0;
+    }
+
     @media (max-width: 850px) {
       .stats, .method { grid-template-columns: repeat(2, 1fr); }
       .grid { grid-template-columns: 1fr; }
@@ -271,6 +302,7 @@
         <a href="#overview">Overview</a>
         <a href="#assets">Asset Classes</a>
         <a href="#methodology">Methodology</a>
+        <a href="#dashboard">Dashboard</a>
         <a href="#findings">Findings</a>
         <a href="#files">Project Files</a>
       </div>
@@ -355,6 +387,64 @@
           <div class="card"><span class="step">2</span><h3>Financial Performance</h3><p class="muted">Use ROI and NPV to compare financial outcomes.</p></div>
           <div class="card"><span class="step">3</span><h3>Risk</h3><p class="muted">Assess relative investment and deployment risk.</p></div>
           <div class="card"><span class="step">4</span><h3>Carbon Impact</h3><p class="muted">Compare estimated carbon savings and decarbonisation value.</p></div>
+        </div>
+      </div>
+    </section>
+
+
+    <section id="dashboard">
+      <div class="wrap">
+        <div class="section-head">
+          <div class="eyebrow">Dashboard Evidence</div>
+          <h2>Power BI analysis at a glance</h2>
+          <p class="muted">
+            These views summarise the main investment comparisons so the analysis can be reviewed
+            without requiring Power BI Desktop.
+          </p>
+        </div>
+
+        <div class="gallery">
+          <article class="card visual-card">
+            <img
+              src="https://raw.githubusercontent.com/duvwiamamichael/uk-energy-infrastructure-investment-analysis/main/images/dashboard-overview.png"
+              alt="Power BI executive dashboard overview for UK energy infrastructure investment analysis"
+              loading="lazy"
+            />
+            <div class="visual-copy">
+              <h3>Executive Dashboard</h3>
+              <p class="muted">
+                Overall comparison of the seven UK energy infrastructure asset classes across the core investment measures.
+              </p>
+            </div>
+          </article>
+
+          <article class="card visual-card">
+            <img
+              src="https://raw.githubusercontent.com/duvwiamamichael/uk-energy-infrastructure-investment-analysis/main/images/financial-performance.png"
+              alt="Power BI financial performance analysis showing ROI and NPV"
+              loading="lazy"
+            />
+            <div class="visual-copy">
+              <h3>Financial Performance</h3>
+              <p class="muted">
+                ROI and NPV comparisons used to assess the relative financial attractiveness of each asset class.
+              </p>
+            </div>
+          </article>
+
+          <article class="card visual-card">
+            <img
+              src="https://raw.githubusercontent.com/duvwiamamichael/uk-energy-infrastructure-investment-analysis/main/images/risk-carbon-analysis.png"
+              alt="Power BI risk and carbon impact analysis"
+              loading="lazy"
+            />
+            <div class="visual-copy">
+              <h3>Risk &amp; Carbon Impact</h3>
+              <p class="muted">
+                A broader investment view combining risk considerations with estimated decarbonisation potential.
+              </p>
+            </div>
+          </article>
         </div>
       </div>
     </section>
